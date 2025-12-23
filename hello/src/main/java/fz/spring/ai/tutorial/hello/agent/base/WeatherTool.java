@@ -27,32 +27,4 @@ public class WeatherTool implements BiFunction<String, ToolContext, String> {
     public <V> BiFunction<String, ToolContext, V> andThen(@NotNull Function<? super String, ? extends V> after) {
         return BiFunction.super.andThen(after);
     }
-
-    public static void main(String[] args) throws GraphRunnerException {
-        // 初始化 ChatModel
-        String AI_DASHSCOPE_API_KEY = System.getenv("AI_DASHSCOPE_API_KEY");
-     System.out.println("AI_DASHSCOPE_API_KEY: " + AI_DASHSCOPE_API_KEY);
-        DashScopeApi dashScopeApi = DashScopeApi.builder().apiKey("sk-y3RYpGHh4YOWSoEk63YmpqxYTZyoJ40bURss0S8u2hMC6CWE").build();
-        ChatModel chatModel = DashScopeChatModel.builder().dashScopeApi(dashScopeApi).build();
-        System.out.println(chatModel);
-
-        ToolCallback weatherTool  = FunctionToolCallback.builder("get_weather", new WeatherTool())
-                .description("Get weather for a given city")
-                .inputType(String.class)
-                .build();
-
-        // 创建agent
-        ReactAgent agent = ReactAgent.builder()
-                .name("weather_agent")
-                .model(chatModel)
-                .tools(weatherTool)
-                .systemPrompt("You are a helpful assistant")
-                .saver(new MemorySaver())
-                .build();
-
-        // 运行agent
-        // What's the weather like in Shanghai?
-        AssistantMessage response = agent.call("what is the weather in San Francisco");
-        System.out.println(response.getText());
-    }
 }
