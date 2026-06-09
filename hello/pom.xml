@@ -97,7 +97,11 @@
 			<version>1.1.0.0-M5</version>
 		</dependency>
 
-
+		<dependency>
+			<groupId>io.agentscope</groupId>
+			<artifactId>agentscope</artifactId>
+			<version>1.0.8</version>
+		</dependency>
 	</dependencies>
 	<dependencyManagement>
 		<dependencies>
